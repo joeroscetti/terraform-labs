@@ -29,6 +29,6 @@ jobs:
 
     - name: 'Run Terraform Plan'
       run: |
-        cd ../../terraform 
+        cd terraform 
         terraform init
         terraform plan
