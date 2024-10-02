@@ -27,8 +27,8 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: 'Terraform Init'
-      run: terraform init
-
-    - name: 'Terraform Plan'
-      run: terraform plan
+    - name: 'Run Terraform Plan'
+      run: |
+        cd ../../terraform 
+        terraform init
+        terraform plan
