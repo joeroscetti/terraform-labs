@@ -44,12 +44,22 @@ jobs:
         terraform init
         terraform plan
 
-    - name: 'Manual Approval to Apply Changes'
-      uses: hmarr/auto-approve-action@v2
+    - name: 'Manual Approval'
+      uses: 'slackapi/approve-action@v1.0.0'
       with:
-        prompt: 'Do you want to apply the Terraform changes?'
-
+        prompt: 'Do you want to proceed with Terraform Apply?'
+        approval-comment: true  # Display approval comment input field
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+      # If the approval is given, proceed with apply
     - name: 'Terraform Apply'
-      if: ${{ github.event.inputs.apply_changes == 'yes' }}
+      if: ${{ steps.approval.outcome == 'approved' }}
       run: |
-        echo "Terraform applied"
+        echo "Proceeding with Terraform Apply..."
+  
+      # If approval is not given, cancel the workflow
+    - name: 'Cancel Workflow'
+      if: ${{ steps.approval.outcome == 'rejected' }}
+      run: |
+        echo "Terraform Apply has been rejected. Exiting workflow."
