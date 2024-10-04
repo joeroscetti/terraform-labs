@@ -43,3 +43,13 @@ jobs:
         cd terraform 
         terraform init
         terraform plan
+
+    - name: 'Manual Approval to Apply Changes'
+      uses: hmarr/auto-approve-action@v2
+      with:
+        prompt: 'Do you want to apply the Terraform changes?'
+
+    - name: 'Terraform Apply'
+      if: ${{ github.event.inputs.apply_changes == 'yes' }}
+      run: |
+        echo "Terraform applied"
