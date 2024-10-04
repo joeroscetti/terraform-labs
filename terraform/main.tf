@@ -14,7 +14,7 @@ terraform {
   }
 }
 
-resource "azurerm_resource_group" "test" {
-  name     = "test"
+resource "azurerm_resource_group" "github_testing" {
+  name     = "github_testing"
   location = "East US"
 }
