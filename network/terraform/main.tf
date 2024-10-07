@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "github_testing" {
 }
 
 module "vnet" {
-  source              = "../modules/network"
+  source              = "../../modules/network"
   vnet_name           = var.vnet_name
   address_space       = var.address_space
   location            = var.location
