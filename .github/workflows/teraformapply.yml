@@ -40,7 +40,7 @@ jobs:
 
     - name: 'Run Terraform Plan and Apply'
       run: |
-        cd terraform 
+        cd network/terraform 
         terraform init
         terraform plan
         terraform apply -auto-approve
