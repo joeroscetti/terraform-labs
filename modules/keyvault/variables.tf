@@ -28,3 +28,9 @@ variable "object_id" {
   description = "The Object ID of the Service Principal or user to whom the Key Vault access policy applies."
   type        = string
 }
+
+variable "public_network_access_enabled" {
+  description = "allow public network access."
+  type        = string
+  default     = false
+}

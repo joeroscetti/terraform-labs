@@ -1,6 +1,6 @@
-kv_name           = "my-vnet"
+kv_name           = "kv_roscetti"
 location            = "East US"
-resource_group_name = "github_testing"
+resource_group_name = "github_keyvault"
 sku_name            = "standard"
 tenant_id           = ""
 object_id          = ""
