@@ -49,7 +49,7 @@ jobs:
 
     - name: 'Run Terraform Plan and Apply'
       run: |
-        cd workloads/network/terraform 
+        cd workloads/keyvault/terraform 
         terraform init
         terraform plan -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" -var="object_id=${{ secrets.ARM_CLIENT_ID }}"
         terraform apply -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" -var="object_id=${{ secrets.ARM_CLIENT_ID }}" -auto-approve
