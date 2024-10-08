@@ -1,4 +1,4 @@
-kv_name           = "kv_roscetti"
+kv_name           = "kvroscetti"
 location            = "East US"
 resource_group_name = "github_keyvault"
 sku_name            = "standard"
