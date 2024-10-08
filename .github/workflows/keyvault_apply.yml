@@ -48,24 +48,21 @@ jobs:
         echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
         echo "Setting ARM_SUBSCRIPTION_ID"
         echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+    
+    - name: 'Terraform Init'
+      run: | 
+        terraform init -backend-config="resource_group_name=${{ secrets.ARM_RESOURCE_GROUP }}" \
+                      -backend-config="storage_account_name=${{ secrets.ARM_STORAGE_ACCOUNT }}" \
+                      -backend-config="container_name=${{ secrets.STORAGE_CONTAINER_NAME }}" \
+                      -backend-config="key=keyvault.tf"
 
-    - name: Configure Terraform Backend
-      run: |
-        echo 'backend "azurerm" {
-          resource_group_name  = "${{ secrets.RESOURCE_GROUP_NAME }}"
-          storage_account_name = "${{ secrets.STORAGE_ACCOUNT_NAME }}"
-          container_name       = "${{ secrets.STORAGE_CONTAINER_NAME }}"
-          key                  = "keyvault.tfstate"
-        }' > backend.tf
-
-    - name: 'Run Terraform Plan'
+    - name: 'Terraform Plan'
       if: ${{ github.event.inputs.run_plan == 'true' }}
       run: |
         cd workloads/keyvault/terraform 
-        terraform init
         terraform plan -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" -var="object_id=${{ secrets.ARM_CLIENT_ID }}"
 
-    - name: 'Run Terraform Plan'
+    - name: 'Run Terraform Apply'
       if: ${{ github.event.inputs.run_apply == 'true' }}
       run: |
         cd workloads/keyvault/terraform 
