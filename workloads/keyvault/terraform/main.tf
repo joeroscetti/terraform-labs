@@ -17,8 +17,8 @@ resource "azurerm_resource_group" "github_keyvault" {
 module "keyvault" {
   source              = "../../../modules/keyvault"
   kv_name           = var.kv_name
-  location            = azurerm_resource_group.github_keyvault.location
-  resource_group_name = azurerm_resource_group.github_keyvault.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
   tenant_id           = var.tenant_id
   object_id           = var.object_id
  

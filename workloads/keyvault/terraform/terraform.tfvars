@@ -1,4 +1,6 @@
 kv_name           = "kvroscetti"
 sku_name            = "standard"
+resource_group_name = "github_keyvault"
+location = "east us"
 tenant_id           = ""
 object_id          = ""

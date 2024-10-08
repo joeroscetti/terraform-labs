@@ -18,3 +18,13 @@ variable "object_id" {
   description = "The Object ID of the Service Principal or user to whom the Key Vault access policy applies."
   type        = string
 }
+
+variable "location" {
+  description = "The Object ID of the Service Principal or user to whom the Key Vault access policy applies."
+  type        = string
+}
+
+variable "resource_group_name" {
+  description = "The Object ID of the Service Principal or user to whom the Key Vault access policy applies."
+  type        = string
+}
