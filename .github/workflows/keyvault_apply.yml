@@ -7,10 +7,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      run_apply:
-        description: 'Do you want to run terraform apply?'
-        required: true
-        default: 'no'
+        steps_to_run:
+          description: 'Select the steps you want to run'
+          required: true
+          default: 'plan'
+          type: choice
+          options:
+            - plan
+            - apply
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -53,6 +57,7 @@ jobs:
         }' > backend.tf
 
     - name: 'Run Terraform Plan'
+      if: ${{ github.event.inputs.steps_to_run == 'plan'}}
       run: |
         cd workloads/keyvault/terraform 
         terraform init
@@ -60,7 +65,7 @@ jobs:
         terraform apply -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" -var="object_id=${{ secrets.ARM_CLIENT_ID }}" -auto-approve
 
     - name: 'Run Terraform Plan'
-      if: ${{ github.event.inputs.run_apply == 'yes' }}
+      if: ${{ github.event.inputs.steps_to_run == 'apply'}}
       run: |
         cd workloads/keyvault/terraform 
         terraform apply -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" -var="object_id=${{ secrets.ARM_CLIENT_ID }}" -auto-approve
