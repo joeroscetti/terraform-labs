@@ -3,16 +3,6 @@ variable "kv_name" {
   type        = string
 }
 
-variable "location" {
-  description = "The location/region where the Key Vault will be created."
-  type        = string
-}
-
-variable "resource_group_name" {
-  description = "The name of the resource group in which to create the Key Vault."
-  type        = string
-}
-
 variable "sku_name" {
   description = "The SKU name of the Key Vault. Possible values are 'standard' and 'premium'."
   type        = string
