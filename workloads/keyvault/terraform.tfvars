@@ -1,0 +1,6 @@
+kv_name           = "my-vnet"
+location            = "East US"
+resource_group_name = "github_testing"
+sku_name            = "standard"
+tenant_id           = ""
+object_id          = ""

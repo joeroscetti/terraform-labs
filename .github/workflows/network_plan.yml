@@ -49,6 +49,6 @@ jobs:
 
     - name: 'Run Terraform Plan'
       run: |
-        cd network/terraform 
+        cd workloads/network/terraform 
         terraform init
         terraform plan

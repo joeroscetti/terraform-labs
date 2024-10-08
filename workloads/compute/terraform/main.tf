@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 module "sql_db" {
-  source                    = "../../modules/sql_db"
+  source                    = "../../../modules/sql_db"
   resource_group_name      = var.resource_group_name
   location                 = var.location
   sql_server_name          = var.sql_server_name
