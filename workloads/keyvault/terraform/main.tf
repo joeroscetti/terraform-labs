@@ -5,7 +5,9 @@ provider "azurerm" {
 }
 
 # Remote state configuration
-
+terraform {
+  backend "azurerm" {}
+}
 
 resource "azurerm_resource_group" "github_keyvault" {
   name     = "github_keyvault"
