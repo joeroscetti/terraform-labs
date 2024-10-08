@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
     inputs:
         run_plan:
-          description: 'Run Terraform Plan?'
+          description: 'Run Terraform Plan'
           required: false
           default: false
           type: boolean
         run_apply:
-          description: 'Run Terraform Apply?'
+          description: 'Run Terraform Apply'
           required: false
           default: false
           type: boolean
