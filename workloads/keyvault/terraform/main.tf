@@ -7,7 +7,7 @@ provider "azurerm" {
 # Remote state configuration
 
 
-resource "azurerm_resource_group" "github_testing" {
+resource "azurerm_resource_group" "github_keyvault" {
   name     = "github_keyvault"
   location = "East US"
 }

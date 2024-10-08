@@ -7,8 +7,8 @@ provider "azurerm" {
 # Remote state configuration
 
 
-resource "azurerm_resource_group" "github_testing" {
-  name     = "github_testing"
+resource "azurerm_resource_group" "github_network" {
+  name     = "github_network"
   location = "East US"
 }
 
