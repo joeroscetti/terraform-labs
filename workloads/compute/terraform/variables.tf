@@ -29,8 +29,7 @@ variable "database_names" {
   type        = list(string)
 }
 
-variable "service_objective" {
-  description = "The service objective for the SQL Database."
+variable "key_vault_id" {
+  description = "A list of names for the SQL Databases."
   type        = string
-  default     = "S0"  # Default to Standard S0 tier
 }

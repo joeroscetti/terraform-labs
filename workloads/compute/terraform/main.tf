@@ -15,6 +15,6 @@ module "sql_db" {
   administrator_login      = var.administrator_login
   administrator_login_password = var.administrator_login_password
   database_names           = var.database_names
-  service_objective        = var.service_objective
+  key_vault_id             = var.keyvault_id
 }
 
