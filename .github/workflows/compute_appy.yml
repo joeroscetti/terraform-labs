@@ -51,7 +51,7 @@ jobs:
     
     - name: 'Terraform Init'
       run: | 
-        cd workloads/keyvault/terraform
+        cd workloads/compute/terraform
         terraform init -backend-config="resource_group_name=${{ secrets.RESOURCE_GROUP_NAME }}" \
                       -backend-config="storage_account_name=${{ secrets.STORAGE_ACCOUNT_NAME }}" \
                       -backend-config="container_name=${{ secrets.CONTAINER_NAME }}" \
