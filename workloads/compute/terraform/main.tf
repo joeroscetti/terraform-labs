@@ -2,6 +2,12 @@ provider "azurerm" {
   features {}
 }
 
+# Remote state configuration
+terraform {
+  backend "azurerm" {}
+}
+
+
 resource "azurerm_resource_group" "github_database" {
   name     = var.resource_group_name
   location = var.location
