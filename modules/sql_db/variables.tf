@@ -34,4 +34,10 @@ variable "key_vault_id" {
   type        = string
 }
 
+variable "version" {
+  description = "A list of names for the SQL Databases."
+  type        = string
+  default = "12.0"
+}
+
 
