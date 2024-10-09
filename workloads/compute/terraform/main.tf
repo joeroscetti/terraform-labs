@@ -2,7 +2,7 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "this" {
+resource "azurerm_resource_group" "github_database" {
   name     = var.resource_group_name
   location = var.location
 }
@@ -15,6 +15,6 @@ module "sql_db" {
   administrator_login      = var.administrator_login
   administrator_login_password = var.administrator_login_password
   database_names           = var.database_names
-  key_vault_id             = var.keyvault_id
+  key_vault_id             = var.key_vault_id
 }
 
