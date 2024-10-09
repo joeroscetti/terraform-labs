@@ -20,6 +20,6 @@ resource "azurerm_mssql_server" "sql_server" {
 resource "azurerm_mssql_database" "sql_database" {
   count               = length(var.database_names)
   name                = var.database_names[count.index]
-  server_id         = azurerm_mssql_server.sql_server.name
+  server_id         = azurerm_mssql_server.sql_server.id
   sku_name = "Basic"
 }
