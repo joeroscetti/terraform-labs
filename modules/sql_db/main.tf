@@ -8,7 +8,7 @@ data "azurerm_key_vault_secret" "sql_admin_password" {
   key_vault_id = var.key_vault_id
 }
 
-resource "azurerm_mssql_serve" "sql_server" {
+resource "azurerm_mssql_server" "sql_server" {
   name                         = var.sql_server_name
   resource_group_name          = var.resource_group_name
   location                     = var.location
