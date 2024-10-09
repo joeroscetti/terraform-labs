@@ -32,5 +32,5 @@ variable "object_id" {
 variable "public_network_access_enabled" {
   description = "allow public network access."
   type        = string
-  default     = false
+  default     = true
 }
