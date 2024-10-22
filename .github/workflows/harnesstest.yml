@@ -16,10 +16,12 @@ jobs:
         # Step 2: Export ADF ARM Template
     - name: Export ADF ARM Template
       run: |
-        az datafactory export-arm-template \
-            --factory-name df1roscetti \
-            --resource-group data-factory-testing \
-            --output-path adf_arm_template.json
+        az resource show \
+          --resource-group data-factory-testing \
+          --name df1roscetti \
+          --resource-type "Microsoft.DataFactory/factories" \
+          --query properties \
+          --output json > adf_arm_template.json
   
     # Step 3: Deploy ARM Template to New ADF
     - name: Deploy ADF ARM Template
