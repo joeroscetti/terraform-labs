@@ -13,6 +13,11 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
   
+    - name: 'Install Az PowerShell Module'
+      shell: pwsh
+      run: |
+        Install-Module -Name Az -Force -AllowClobber
+        Import-Module Az
 
 
     # Step 2: Export Linked Services and Datasets from Source ADF
