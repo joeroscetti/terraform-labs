@@ -21,8 +21,21 @@ jobs:
             az datafactory dataset show --resource-group data-factory-testing --factory-name df1roscetti --name $dataset > "${dataset}.json"
         done
 
+    - name: 'Export ADF Linked Services'
+      run: |
+        linkedServices=$(az datafactory linked-service list --resource-group data-factory-testing  --factory-name df1roscetti --query "[].name" -o tsv)
+        for linkedService in $linkedServices; do
+            az datafactory linked-service show --resource-group data-factory-testing  --factory-name df1roscetti --name $linkedService > "${linkedService}.json"
+        done
+
     - name: 'Import Datasets into Target ADF'
       run: |
         for dataset in $datasets; do
             az datafactory dataset create --resource-group data-factory-testing --factory-name df2roscetti --name $dataset --dataset @"${dataset}.json"
+        done
+
+    - name: 'Import Linked Services into Target ADF'
+      run: |
+        for linkedService in $linkedServices; do
+            az datafactory linked-service create --resource-group data-factory-testing --factory-name df2roscetti --name $linkedService --linked-service @"${linkedService}.json"
         done
