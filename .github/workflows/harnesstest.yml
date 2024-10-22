@@ -13,29 +13,48 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
   
-        # Step 2: Export ADF ARM Template
-    - name: 'Export ADF Datasets'
-      run: |
-        datasets=$(az datafactory dataset list --resource-group data-factory-testing --factory-name df1roscetti --query "[].name" -o tsv)
-        for dataset in $datasets; do
-            az datafactory dataset show --resource-group data-factory-testing --factory-name df1roscetti --name $dataset > "${dataset}.json"
-        done
 
-    - name: 'Export ADF Linked Services'
-      run: |
-        linkedServices=$(az datafactory linked-service list --resource-group data-factory-testing  --factory-name df1roscetti --query "[].name" -o tsv)
-        for linkedService in $linkedServices; do
-            az datafactory linked-service show --resource-group data-factory-testing  --factory-name df1roscetti --name $linkedService > "${linkedService}.json"
-        done
 
-    - name: 'Import Datasets into Target ADF'
+    # Step 2: Export Linked Services and Datasets from Source ADF
+    - name: 'Export Linked Services and Datasets'
+      shell: pwsh
       run: |
-        for dataset in $datasets; do
-            az datafactory dataset create --resource-group data-factory-testing --factory-name df2roscetti --name $dataset --dataset @"${dataset}.json"
-        done
+        $sourceResourceGroup = 'data-factory-testing'
+        $sourceFactoryName = 'df1roscetti'
 
-    - name: 'Import Linked Services into Target ADF'
+        
+       
+        New-Item -ItemType Directory -Path ./exported -Force
+
+        
+        $linkedServices = Get-AzDataFactoryV2LinkedService -ResourceGroupName $sourceResourceGroup -DataFactoryName $sourceFactoryName
+        foreach ($linkedService in $linkedServices) {
+          $linkedServiceName = $linkedService.Name
+          $linkedService | ConvertTo-Json | Out-File -FilePath "./exported/${linkedServiceName}_LinkedService.json"
+        }
+
+       
+        $datasets = Get-AzDataFactoryV2Dataset -ResourceGroupName $sourceResourceGroup -DataFactoryName $sourceFactoryName
+        foreach ($dataset in $datasets) {
+          $datasetName = $dataset.Name
+          $dataset | ConvertTo-Json | Out-File -FilePath "./exported/${datasetName}_Dataset.json"
+        }
+
+    # Step 3: Upload Linked Services and Datasets to Target ADF
+    - name: 'Import Linked Services and Datasets'
+      shell: pwsh
       run: |
-        for linkedService in $linkedServices; do
-            az datafactory linked-service create --resource-group data-factory-testing --factory-name df2roscetti --name $linkedService --linked-service @"${linkedService}.json"
-        done
+        $targetResourceGroup = 'data-factory-testing'
+        $targetFactoryName = 'df2roscetti'
+
+        
+        Get-ChildItem -Path ./exported/*_LinkedService.json | ForEach-Object {
+          $linkedServiceJson = Get-Content -Path $_.FullName -Raw | ConvertFrom-Json
+          Set-AzDataFactoryV2LinkedService -ResourceGroupName $targetResourceGroup -DataFactoryName $targetFactoryName -Name $linkedServiceJson.name -Definition $linkedServiceJson.properties
+        }
+
+       
+        Get-ChildItem -Path ./exported/*_Dataset.json | ForEach-Object {
+          $datasetJson = Get-Content -Path $_.FullName -Raw | ConvertFrom-Json
+          Set-AzDataFactoryV2Dataset -ResourceGroupName $targetResourceGroup -DataFactoryName $targetFactoryName -Name $datasetJson.name -Definition $datasetJson.properties
+        }
