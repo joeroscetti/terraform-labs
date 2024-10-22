@@ -1,0 +1,30 @@
+on:
+    workflow_dispatch:
+      
+  
+jobs:
+  export-deploy-adf:
+    runs-on: ubuntu-latest
+  
+    steps:
+     # Step 1: Azure Login
+    - name: 'Azure Login'
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
+        # Step 2: Export ADF ARM Template
+    - name: Export ADF ARM Template
+      run: |
+        az datafactory export-arm-template \
+            --factory-name df1roscetti \
+            --resource-group data-factory-testing \
+            --output-path adf_arm_template.json
+  
+    # Step 3: Deploy ARM Template to New ADF
+    - name: Deploy ADF ARM Template
+      run: |
+        az deployment group create \
+            --resource-group data-factory-testing \
+            --template-file adf_arm_template.json \
+            --parameters dataFactoryName="df2roscetti" location="East US"
