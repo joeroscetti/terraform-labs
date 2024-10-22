@@ -23,10 +23,6 @@ jobs:
           --query properties \
           --output json > adf_arm_template.json
   
-    # Step 3: Deploy ARM Template to New ADF
-    - name: Deploy ADF ARM Template
+    - name: Output ARM Template Parameters
       run: |
-        az deployment group create \
-            --resource-group data-factory-testing \
-            --template-file adf_arm_template.json \
-            --parameters factoryName="df2roscetti" location="East US"
+        cat adf_arm_template.json | jq '.parameters'
