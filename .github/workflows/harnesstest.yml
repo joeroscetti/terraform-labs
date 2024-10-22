@@ -14,15 +14,15 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
   
         # Step 2: Export ADF ARM Template
-    - name: Export ADF ARM Template
+    - name: 'Export ADF Datasets'
       run: |
-        az resource show \
-          --resource-group data-factory-testing \
-          --name df1roscetti \
-          --resource-type "Microsoft.DataFactory/factories" \
-          --query properties \
-          --output json > adf_arm_template.json
-  
-    - name: Output ARM Template Parameters
+        datasets=$(az datafactory dataset list --resource-group data-factory-testing --factory-name df1roscetti --query "[].name" -o tsv)
+        for dataset in $datasets; do
+            az datafactory dataset show --resource-group data-factory-testing --factory-name df1roscetti --name $dataset > "${dataset}.json"
+        done
+
+    - name: 'Import Datasets into Target ADF'
       run: |
-        cat adf_arm_template.json | jq '.parameters'
+        for dataset in $datasets; do
+            az datafactory dataset create --resource-group data-factory-testing --factory-name df2roscetti --name $dataset --dataset @"${dataset}.json"
+        done
