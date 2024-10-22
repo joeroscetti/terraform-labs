@@ -29,4 +29,4 @@ jobs:
         az deployment group create \
             --resource-group data-factory-testing \
             --template-file adf_arm_template.json \
-            --parameters dataFactoryName="df2roscetti" location="East US"
+            --parameters factoryName="df2roscetti" location="East US"
