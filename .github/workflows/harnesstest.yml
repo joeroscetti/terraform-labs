@@ -16,7 +16,7 @@ jobs:
     - name: Download ADF ARM Template from Azure Storage
       run: |
         az storage blob download \
-          --account-name ${{ secrets.RESOURCE_GROUP_NAME }} \
+          --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} \
           --container-name ${{ secrets.CONTAINER_NAME }} \
           --name armtemplatetest.json \
           --file .tfstate/adf-template.json \
