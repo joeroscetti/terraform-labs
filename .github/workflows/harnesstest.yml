@@ -21,15 +21,11 @@ jobs:
           --name armtemplatetest.json \
           --file ./adf-template.json \
           --auth-mode login 
-        
-
-    - name: Update ADF ARM Template for New Instance
-      run: |
-        jq '.parameters.adfName.defaultValue = "df2roscetti"' ./adf-template.json > ./adf-template-updated.json
 
     - name: Deploy ADF ARM Template
       run: |
         az deployment group create \
           --resource-group data-factory-testing \
-          --template-file ./adf-template-updated.json \
+          --template-file ./adf-template.json \
+          -- parameters adfname="df2roscetti"
           --name azuredftest  # Provide a unique deployment name
