@@ -23,7 +23,8 @@ jobs:
       shell: pwsh
       run: |
         $sp = ConvertFrom-Json $env:AZURE_CREDENTIALS
-        Connect-AzAccount -ServicePrincipal -TenantId $sp.tenantId
+        Connect-AzAccount -ServicePrincipal -TenantId $sp.tenantId -Credential (New-Object System.Management.Automation.PSCredential ($sp.clientId, (ConvertTo-SecureString $sp.clientSecret -AsPlainText -Force)))
+
 
     # Step 2: Export Linked Services and Datasets from Source ADF
     - name: 'Export Linked Services and Datasets'
