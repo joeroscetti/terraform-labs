@@ -13,62 +13,24 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
   
-    - name: 'Install Az PowerShell Module'
-      shell: pwsh
+    - name: Download ADF ARM Template from Azure Storage
       run: |
-        Install-Module -Name Az -Force -AllowClobber
-        Import-Module Az
-
-    - name: 'AZ powershell module login'
-      shell: pwsh
-      run: |
-        $tenantId = "${{ secrets.ARM_TENANT_ID }}"
-        $applicationId = "${{ secrets.ARM_CLIENT_ID }}"
-        $servicePrincipalSecret = "${{ secrets.ARM_CLIENT_SECRET }}"
-        $securePassword = ConvertTo-SecureString -String $servicePrincipalSecret -AsPlainText -Force
-        $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $applicationId, $securePassword
-        Connect-AzAccount -ServicePrincipal -TenantId $tenantId -Credential $credential
-
-    # Step 2: Export Linked Services and Datasets from Source ADF
-    - name: 'Export Linked Services and Datasets'
-      shell: pwsh
-      run: |
-        $sourceResourceGroup = 'data-factory-testing'
-        $sourceFactoryName = 'df1roscetti'
-     
+        az storage blob download \
+          --account-name ${{ secrets.RESOURCE_GROUP_NAME }} \
+          --container-name ${{ secrets.CONTAINER_NAME }} \
+          --name armtemplatetest.json \
+          --file ./adf-template.json \
+          --auth-mode login 
         
-       
-        New-Item -ItemType Directory -Path ./exported -Force
 
-        
-        $linkedServices = Get-AzDataFactoryV2LinkedService -ResourceGroupName $sourceResourceGroup -DataFactoryName $sourceFactoryName
-        foreach ($linkedService in $linkedServices) {
-          $linkedServiceName = $linkedService.Name
-          $linkedService | ConvertTo-Json -Depth 10 | Out-File -FilePath "./exported/${linkedServiceName}_LinkedService.json"
-        }
-
-       
-        $datasets = Get-AzDataFactoryV2Dataset -ResourceGroupName $sourceResourceGroup -DataFactoryName $sourceFactoryName
-        foreach ($dataset in $datasets) {
-          $datasetName = $dataset.Name
-          $dataset | ConvertTo-Json -Depth 10 | Out-File -FilePath "./exported/${datasetName}_Dataset.json"
-        }
-
-    # Step 3: Upload Linked Services and Datasets to Target ADF
-    - name: 'Import Linked Services and Datasets'
-      shell: pwsh
+    - name: Update ADF ARM Template for New Instance
       run: |
-        $targetResourceGroup = 'data-factory-testing'
-        $targetFactoryName = 'df2roscetti'
+        jq '.parameters.adfName.defaultValue = "df2roscetti"' ./adf-template.json > ./adf-template-updated.json
 
-        
-        Get-ChildItem -Path ./exported/*_LinkedService.json | ForEach-Object {
-          $linkedServiceJson = Get-Content -Path $_.FullName -Raw | ConvertFrom-Json
-          Set-AzDataFactoryV2LinkedService -ResourceGroupName $targetResourceGroup -DataFactoryName $targetFactoryName -Name $linkedServiceJson.name -Definition $linkedServiceJson.properties
-        }
-
-       
-        Get-ChildItem -Path ./exported/*_Dataset.json | ForEach-Object {
-          $datasetJson = Get-Content -Path $_.FullName -Raw | ConvertFrom-Json
-          Set-AzDataFactoryV2Dataset -ResourceGroupName $targetResourceGroup -DataFactoryName $targetFactoryName -Name $datasetJson.name -Definition $datasetJson.properties
-        }
+    - name: Deploy ADF ARM Template
+      run: |
+        az deployment resource group create \
+          --resource-group <your-resource-group> \
+          --template-file ./adf-template-updated.json \
+          --parameters <parameter1>=<value1> <parameter2>=<value2> \
+          --name azuredftest  # Provide a unique deployment name
