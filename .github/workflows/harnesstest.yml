@@ -32,5 +32,4 @@ jobs:
         az deployment resource group create \
           --resource-group <your-resource-group> \
           --template-file ./adf-template-updated.json \
-          --parameters <parameter1>=<value1> <parameter2>=<value2> \
           --name azuredftest  # Provide a unique deployment name
