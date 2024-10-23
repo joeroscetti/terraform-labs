@@ -44,14 +44,14 @@ jobs:
         $linkedServices = Get-AzDataFactoryV2LinkedService -ResourceGroupName $sourceResourceGroup -DataFactoryName $sourceFactoryName
         foreach ($linkedService in $linkedServices) {
           $linkedServiceName = $linkedService.Name
-          $linkedService | ConvertTo-Json | Out-File -FilePath "./exported/${linkedServiceName}_LinkedService.json"
+          $linkedService | ConvertTo-Json -Depth 10 | Out-File -FilePath "./exported/${linkedServiceName}_LinkedService.json"
         }
 
        
         $datasets = Get-AzDataFactoryV2Dataset -ResourceGroupName $sourceResourceGroup -DataFactoryName $sourceFactoryName
         foreach ($dataset in $datasets) {
           $datasetName = $dataset.Name
-          $dataset | ConvertTo-Json | Out-File -FilePath "./exported/${datasetName}_Dataset.json"
+          $dataset | ConvertTo-Json -Depth 10 | Out-File -FilePath "./exported/${datasetName}_Dataset.json"
         }
 
     # Step 3: Upload Linked Services and Datasets to Target ADF
