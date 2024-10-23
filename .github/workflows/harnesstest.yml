@@ -30,6 +30,6 @@ jobs:
     - name: Deploy ADF ARM Template
       run: |
         az deployment resource group create \
-          --resource-group <your-resource-group> \
+          --resource-group data-factory-testing \
           --template-file ./adf-template-updated.json \
           --name azuredftest  # Provide a unique deployment name
