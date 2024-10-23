@@ -19,12 +19,15 @@ jobs:
         Install-Module -Name Az -Force -AllowClobber
         Import-Module Az
 
-    - name: 'Export and Import ADF Resources'
+    - name: 'AZ powershell module login'
       shell: pwsh
       run: |
-        $sp = ConvertFrom-Json $env:AZURE_CREDENTIALS
-        Connect-AzAccount -ServicePrincipal -TenantId $sp.tenantId -Credential (New-Object System.Management.Automation.PSCredential ($sp.clientId, (ConvertTo-SecureString $sp.clientSecret -AsPlainText -Force)))
-
+        $tenantId = "${{ secrets.ARM_TENANT_ID }}"
+        $applicationId = "${{ secrets.ARM_CLIENT_ID }}"
+        $servicePrincipalSecret = "${{ secrets.ARM_CLIENT_SECRET }}"
+        $securePassword = ConvertTo-SecureString -String $servicePrincipalSecret -AsPlainText -Force
+        $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $applicationId, $securePassword
+        Connect-AzAccount -ServicePrincipal -TenantId $tenantId -Credential $credential
 
     # Step 2: Export Linked Services and Datasets from Source ADF
     - name: 'Export Linked Services and Datasets'
