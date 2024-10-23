@@ -19,7 +19,7 @@ jobs:
           --account-name ${{ secrets.RESOURCE_GROUP_NAME }} \
           --container-name ${{ secrets.CONTAINER_NAME }} \
           --name armtemplatetest.json \
-          --file ./adf-template.json \
+          --file .tfstate/adf-template.json \
           --auth-mode login 
         
 
