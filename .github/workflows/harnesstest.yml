@@ -19,6 +19,11 @@ jobs:
         Install-Module -Name Az -Force -AllowClobber
         Import-Module Az
 
+    - name: 'Export and Import ADF Resources'
+      shell: pwsh
+      run: |
+        $sp = ConvertFrom-Json $env:AZURE_CREDENTIALS
+        Connect-AzAccount -ServicePrincipal -TenantId $sp.tenantId
 
     # Step 2: Export Linked Services and Datasets from Source ADF
     - name: 'Export Linked Services and Datasets'
@@ -26,7 +31,7 @@ jobs:
       run: |
         $sourceResourceGroup = 'data-factory-testing'
         $sourceFactoryName = 'df1roscetti'
-        Connect-AzAccount -Identity
+     
         
        
         New-Item -ItemType Directory -Path ./exported -Force
