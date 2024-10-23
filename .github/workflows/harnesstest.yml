@@ -18,7 +18,7 @@ jobs:
         az storage blob download \
           --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} \
           --container-name ${{ secrets.CONTAINER_NAME }} \
-          --name tfstate/armtemplatetest.json \
+          --name armtemplatetest.json \
           --file ./adf-template.json \
           --auth-mode login 
         
