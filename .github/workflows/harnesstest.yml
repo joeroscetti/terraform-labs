@@ -23,6 +23,7 @@ jobs:
        az deployment group validate \
          --resource-group data-factory-testing \
          --template-file harness/armtemplatetest.json  \
+         --parameters AzureBlobStorage1_connectionString='${{ secrets.CONNECTION_STRING }}'
          --verbose 
 
     - name: Deploy ADF ARM Template
