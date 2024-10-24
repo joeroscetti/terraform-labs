@@ -29,6 +29,5 @@ jobs:
       run: |
         az deployment group create \
           --resource-group data-factory-testing \
-          --template-file ../../adf-template.json \
-          --parameters factoryName=df2roscetti \
+          --template-file harness/armtemplatetest.json \
           --name azuredftest  
