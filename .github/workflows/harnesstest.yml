@@ -12,32 +12,19 @@ jobs:
       uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-  
-    - name: Download ADF ARM Template from Azure Storage
-      run: |
-        az storage blob download \
-          --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} \
-          --container-name ${{ secrets.CONTAINER_NAME }} \
-          --name armtemplatetest.json \
-          --file ./adf-template.json \
-          --auth-mode login 
-    - name: change parameter
-      run: |
-       jq '.parameters.factoryName.defaultValue = "df2roscetti"' ./adf-template.json > ./adf-template-updated.json
-       jq '.' ./adf-template-updated.json
 
 
     - name: validate
       run: |
        az deployment group validate \
          --resource-group data-factory-testing \
-         --template-file ./adf-template-updated.json \
+         --template-file ../../adf-template.json  \
          --verbose 
 
     - name: Deploy ADF ARM Template
       run: |
         az deployment group create \
           --resource-group data-factory-testing \
-          --template-file ./adf-template.json \
+          --template-file ../../adf-template.json \
           --parameters factoryName=df2roscetti \
           --name azuredftest  
