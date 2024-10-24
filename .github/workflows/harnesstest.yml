@@ -30,4 +30,5 @@ jobs:
         az deployment group create \
           --resource-group data-factory-testing \
           --template-file harness/armtemplatetest.json \
+          --parameters AzureBlobStorage1_connectionString='${{ secrets.CONNECTION_STRING }}'
           --name azuredftest  
