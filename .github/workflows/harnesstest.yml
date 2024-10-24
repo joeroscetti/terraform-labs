@@ -27,12 +27,12 @@ jobs:
        az deployment group validate \
          --resource-group data-factory-testing \
          --template-file ./adf-template.json \
-         --parameters factoryName="df2roscetti"      
+         --parameters factoryName=df2roscetti      
 
     - name: Deploy ADF ARM Template
       run: |
         az deployment group create \
           --resource-group data-factory-testing \
           --template-file ./adf-template.json \
-          --parameters factoryName="df2roscetti" \
+          --parameters factoryName=df2roscetti \
           --name azuredftest  
