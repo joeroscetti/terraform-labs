@@ -9,7 +9,8 @@
         },
         "AzureBlobStorage1_connectionString": {
             "type": "secureString",
-            "metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+            "metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'",
+            "defaultValue": "DefaultSecureConnectionString"
         }
     },
     "variables": {
