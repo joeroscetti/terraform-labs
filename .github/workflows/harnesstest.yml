@@ -24,6 +24,8 @@ jobs:
     - name: change parameter
       run: |
        jq '.parameters.factoryName.defaultValue = "df2roscetti"' ./adf-template.json > ./adf-template-updated.json
+       jq '.' ./adf-template-updated.json
+
 
     - name: validate
       run: |
