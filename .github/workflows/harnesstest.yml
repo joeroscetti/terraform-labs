@@ -21,13 +21,15 @@ jobs:
           --name armtemplatetest.json \
           --file ./adf-template.json \
           --auth-mode login 
+    - name: change parameter
+      run: |
+       jq '.parameters.factoryName.defaultValue = "df2roscetti"' ./adf-template.json > ./adf-template-updated.json
 
     - name: validate
       run: |
        az deployment group validate \
          --resource-group data-factory-testing \
-         --template-file ./adf-template.json \
-         --parameters factoryName=df2roscetti     
+         --template-file ./adf-template-updated.json \
          --verbose 
 
     - name: Deploy ADF ARM Template
