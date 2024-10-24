@@ -18,7 +18,7 @@ jobs:
       run: |
        az deployment group validate \
          --resource-group data-factory-testing \
-         --template-file ../../adf-template.json  \
+         --template-file ../../armtemplatetest.json  \
          --verbose 
 
     - name: Deploy ADF ARM Template
