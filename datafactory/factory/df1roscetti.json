@@ -1,9 +1,0 @@
-{
-	"name": "df1roscetti",
-	"location": "eastus",
-	"identity": {
-		"type": "SystemAssigned",
-		"principalId": "531d5f07-b721-49e6-9213-e4b57bf3a198",
-		"tenantId": "a2bd4167-a08c-4878-828e-d9ea769bc007"
-	}
-}
