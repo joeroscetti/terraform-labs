@@ -16,5 +16,6 @@ jobs:
     steps:
     - name: 'Run bash'
       run: |
+        cd /bash
         chmod +x ./bash.sh
         ./bash.sh
