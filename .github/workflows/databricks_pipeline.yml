@@ -16,9 +16,8 @@ jobs:
     steps:
     - name: 'Checkout the repository'
       uses: actions/checkout@v3 
-      
+
     - name: 'Run bash'
       run: |
-        cd /bash
-        chmod +x ./bash.sh
-        ./bash.sh
+        chmod +x ./bash/bash.sh
+        ./bash/bash.sh
