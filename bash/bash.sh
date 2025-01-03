@@ -18,7 +18,7 @@ az login --service-principal \
 
 # Fetch an AAD Token for Databricks
 echo "Fetching AAD Token for Databricks..."
-DATABRICKS_TOKEN=$(az account get-access-token --resource https://databricks.azure.com --query accessToken -o tsv)
+DATABRICKS_TOKEN=$(az account get-access-token --resource https://adb-2749952475382083.3.azuredatabricks.net --query accessToken -o tsv)
 
 # Install the Databricks CLI if not already installed
 echo "Installing Databricks CLI..."
