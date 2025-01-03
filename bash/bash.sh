@@ -16,19 +16,12 @@ az login --service-principal \
   --password "$AZURE_CLIENT_SECRET" \
   --tenant "$AZURE_TENANT_ID"
 
-# Fetch an AAD Token for Databricks
-echo "Fetching AAD Token for Databricks..."
-DATABRICKS_TOKEN=$(az account get-access-token --resource https://databricks.azure.com --query accessToken -o tsv)
+
 
 
 # Install the Databricks CLI if not already installed
 echo "Installing Databricks CLI..."
 pip install --quiet databricks-cli
 
-# Set Databricks environment variables
-export DATABRICKS_HOST
-export DATABRICKS_TOKEN
 
-# Run a Databricks operation
-echo "Running Databricks operation: Listing clusters..."
-databricks clusters list
+ az databricks workspace list --resource-group databricks --subscription c4a823f7-1f8c-40f0-9ba8-16e520b2144a
