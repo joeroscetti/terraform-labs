@@ -25,3 +25,6 @@ pip install --quiet databricks-cli
 
 
  az databricks workspace list --resource-group databricks --subscription c4a823f7-1f8c-40f0-9ba8-16e520b2144a
+
+ databricks clusters create --json '{"cluster_name": "test-cluster", "spark_version": "7.3.x-scala2.12", "node_type_id": "Standard_DS3_v2", "num_workers": 2}'
+
